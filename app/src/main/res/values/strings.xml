@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">The Movies</string>
+    <string name="movie_title">titulo do filme</string>
+    <string name="movie_release_date">0000-00-00</string>
+    <string name="movie_description">descrição do filme</string>
+</resources>
