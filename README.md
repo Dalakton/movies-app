@@ -7,7 +7,5 @@ API consumida: https://developers.themoviedb.org/3/getting-started/introduction,
 foi Utilizado até agora dia 11/07/2022 :
 
 Retrofit 
-
 Glide
-
 ViewBinding
