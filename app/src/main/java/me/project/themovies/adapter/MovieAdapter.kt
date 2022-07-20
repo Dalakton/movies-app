@@ -1,4 +1,4 @@
-package me.project.themovies.ui.adapter
+package me.project.themovies.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import me.project.themovies.databinding.ItemMoviesBinding
-import me.project.themovies.domain.Movie
+import me.project.themovies.model.Movie
 import me.project.themovies.ui.DetailActivity
-
-class MovieAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+ class MovieAdapter(private val movies : List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,20 +26,11 @@ class MovieAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<Movie
             Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.imagemDoFilme)
                 .centerCrop().into(holder.binding.imageMovie)
 
-
-
-
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.Extras.MOVIE, movie )
+            intent.putExtra("movie", movie)
             context.startActivity(intent)
         }
-
-
-
-
-
-
 
     }
 
@@ -48,6 +38,5 @@ class MovieAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<Movie
        return  movies.size
     }
 
-    class ViewHolder(val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root) {
-    }
+    class ViewHolder(val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root)
 }

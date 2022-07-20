@@ -1,12 +1,11 @@
-package me.project.themovies.domain
+package me.project.themovies.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Movie (
-    @SerializedName("id")
+data class DetailMovies(
     val id: Int,
     @SerializedName("poster_path")
     val imagemDoFilme : String,
@@ -14,9 +13,7 @@ data class Movie (
     val tituloDoFilme: String,
     @SerializedName("overview")
     val descricao: String,
-    @SerializedName("release_date")
-    val dataDeLancamento:String,
     @SerializedName("vote_count")
     val estrelas : Int
-    ) : Parcelable
 
+): Parcelable

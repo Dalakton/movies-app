@@ -1,19 +1,23 @@
 package me.project.themovies.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import me.project.themovies.R
+import me.project.themovies.data.MoviesApi
 import me.project.themovies.databinding.ActivityDetailBinding
-import me.project.themovies.domain.Movie
-import me.project.themovies.domain.MoviePages
+import me.project.themovies.model.DetailMovies
+import me.project.themovies.model.Movie
+import me.project.themovies.repositories.MainRepository
+import me.project.themovies.viewModel.DetailViewModel
+import me.project.themovies.viewModel.DetailViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
 
-    object Extras {
+    private lateinit var viewModel: DetailViewModel
 
-        const val MOVIE = "EXTRA_MOVIE"
-    }
+    private val moviesApi = MoviesApi.getInstance()
 
     private lateinit var binding: ActivityDetailBinding
 
@@ -25,23 +29,34 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        loadDetail()
+        viewModel =
+            ViewModelProvider(
+                this,
+                DetailViewModelFactory(MainRepository(moviesApi))
+            )[DetailViewModel::class.java]
+
+        getDetails()
     }
 
-
-    fun loadDetail() {
-        intent?.extras?.getParcelable<Movie>(Extras.MOVIE)?.let {
-
-            binding.textMovieName.text = it.tituloDoFilme
-            binding.textMovieDescription.text = it.descricao
-            Glide.with(this).load("https://image.tmdb.org/t/p/w500" + it.imagemDoFilme)
-                .centerCrop().into(binding.imageMoviePoster)
-
-            binding.rbMovieStars.rating = it.estrelas.toFloat()
-
+    private fun getDetails() {
+        val movie: Movie = intent.getSerializableExtra("movie") as Movie
+        viewModel.getAlMovies(movie.id)
+        viewModel.movieDetails.observe(this) {
+            loadDetail(it)
         }
-
+        viewModel.errorMessage.observe(this) { error ->
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun loadDetail(moviesDetail: DetailMovies) {
+        binding.textMovieName.text = moviesDetail.tituloDoFilme
+        binding.textMovieDescription.text = moviesDetail.descricao
 
+        Glide.with(this).load("https://image.tmdb.org/t/p/w500" + moviesDetail.imagemDoFilme)
+            .centerCrop().into(binding.imageMoviePoster)
+
+        binding.rbMovieStars.rating = (moviesDetail.estrelas/2).toFloat()
+    }
 }
+

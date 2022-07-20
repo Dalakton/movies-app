@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 
 }
 
@@ -25,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 8
+        targetCompatibility = 8
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -48,9 +49,12 @@ dependencies {
 
     //LIVEDATA, VIEWMODEL ETC
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
+
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.appcompat:appcompat-resources:1.4.2"
     implementation "androidx.fragment:fragment-ktx:1.5.0"
